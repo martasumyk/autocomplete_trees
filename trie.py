@@ -81,7 +81,7 @@ class Trie:
         Finds all the words that starts with prefix.
         '''
         raise NotImplementedError()
-    
+
     def autocomplete(self, prefix: str, root = None):
         node = root or self.root
         words = []
@@ -105,28 +105,28 @@ trie = Trie()
 trie.build_tree('words_eng.txt')
 print(trie.autocomplete('banana'))
 
-def draw_graph(graph):
-        plt.figure(figsize=(10, 6))
+# def draw_graph(graph):
+#     plt.figure(figsize=(10, 6))
 
-        pos = nx.arf_layout(graph)
-        nx.draw(graph, pos, node_color='lightblue',
-                with_labels=True,
-                node_size=500,
-                arrowsize=20,
-                arrows=True)
-        labels = nx.get_edge_attributes(graph, 'weight')
-        nx.draw_networkx_edge_labels(graph, pos, edge_labels=labels)
-        plt.show()
+#     pos = nx.arf_layout(graph)
+#     nx.draw(graph, pos, node_color='lightblue',
+#             with_labels=True,
+#             node_size=500,
+#             arrowsize=20,
+#             arrows=True)
+#     labels = nx.get_edge_attributes(graph, 'weight')
+#     nx.draw_networkx_edge_labels(graph, pos, edge_labels=labels)
+#     plt.show()
 
 
-graph = nx.Graph()
-def create_graph(tree, index = 0):
-    if tree.parent:
-        graph.add_node(tree.value + str(index))
-        graph.add_edge(tree.value + str(index), tree.parent.value + str(index - 1))
+# graph = nx.Graph()
+# def create_graph(tree, index = 0):
+#     if tree.parent:
+#         graph.add_node(tree.value + str(index))
+#         graph.add_edge(tree.value + str(index), tree.parent.value + str(index - 1))
 
-    for child in tree.children.values():
-        create_graph(child, index + 1)
+#     for child in tree.children.values():
+#         create_graph(child, index + 1)
 
 # create_graph(trie.root)
 # draw_graph(graph)
