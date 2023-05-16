@@ -1,28 +1,25 @@
 '''
 Main module to create prefix trie.
 '''
-import matplotlib.pyplot as plt
-import networkx as nx
+from typing import Union
 
 class Node:
     '''
     Creates a class that represents the trie node.
     '''
-    def __init__(self, value: str, parent: "Node", is_word = False):
+    def __init__(self, value: str, parent: Union["Node", None], is_word = False):
         '''
         Initializes the node.
         '''
         # Every node has a value, if it`s empty -> value=''
         self.value = value
-        # Parameter to indicate if the node is a leaf:
-        self.is_leaf = False
 
         # List of child nodes:
-        self.children = {}
+        self.children: dict[str, "Node"] = {}
         self.parent = parent
         self.is_word = is_word
 
-    def add_child(self, child: str) -> None:
+    def add_child(self, child: str) -> "Node":
         """add child to node
 
         Args:
@@ -32,6 +29,9 @@ class Node:
         self.children[child] = new_node
 
         return new_node
+
+    def __str__(self) -> str:
+        return f"Node({self.value}). Is word {self.is_word}. Children: {list(self.children.keys())}"
 
 
 class Trie:
@@ -45,7 +45,7 @@ class Trie:
         # The root of the tree is always an empty string:
         self.root = Node("", None)
 
-    def build_tree(self, path):
+    def build_tree(self, path: str):
         '''
         Build tree by reading english dict file
         '''
@@ -65,44 +65,48 @@ class Trie:
             if letter in node.children:
                 node = node.children[letter]
                 continue
-            
+
             node = node.add_child(letter)
+
         node.is_word = True
 
-    def delete_word(self):
-        '''
-        Deletes the word from the trie.
-        '''
-        raise NotImplementedError()
-
-
-    def find_words(self, prefix):
+    def autocomplete(self, prefix: str, root: Union["Node", None] = None) -> list[str]:
         '''
         Finds all the words that starts with prefix.
         '''
-        raise NotImplementedError()
-
-    def autocomplete(self, prefix: str, root = None):
         node = root or self.root
-        words = []
+        words: list[str] = []
 
+        # if we first time in this function
         if node == self.root:
+            # try to find a sub-word in a tree
             for letter in prefix:
+                if letter not in node.children:
+                    # Unknown word
+                    return []
+
                 node = node.children[letter]
 
+            # if sub-word is a complete word
+            if node.is_word:
+                words.append(prefix)
+
+        # go to every child and recursively call this function
         for child in node.children:
             node_child = node.children[child]
+            value = node_child.value
 
             if node_child.is_word:
-                words.append(prefix + node_child.value)
+                words.append(prefix + value)
 
-            words += [prefix + i for i in self.autocomplete(node_child.value, node_child)]
+            words += [(prefix + suffix) for suffix in self.autocomplete(value, node_child)]
 
         return words
 
 
 trie = Trie()
-trie.build_tree('words_eng.txt')
+trie.build_tree('words.txt')
+
 print(trie.autocomplete('banana'))
 
 # def draw_graph(graph):
