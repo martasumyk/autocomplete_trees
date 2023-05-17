@@ -1,0 +1,19 @@
+#suggestions {
+    background-color: #fff;
+    width: 100%;
+    position: relative;
+    z-index: 2;
+    border-radius: 0 0 15px 15px;
+    padding: 10px 0;
+}
+
+small {
+    color: #6c757d;
+    font-size: 16px;
+    margin-left: 52px;
+}
+
+#suggestions-list {
+    margin: 0;
+    padding: 0;
+}
