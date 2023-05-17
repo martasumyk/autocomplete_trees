@@ -45,10 +45,11 @@ class SufTrie:
             node = self.root
             for i, ch in enumerate(suf):
                 if ch not in node.child:
+                    # first iteration
                     if node.is_leaf:
                         node.is_leaf = False
                         node.child[''] = Node()
-                        node.child[''].is_leaf = False
+                        node.child[''].is_leaf = True
 
                     node.child[ch] = Node(ch)
                     if i == len(suf) - 1:
@@ -56,6 +57,8 @@ class SufTrie:
                         node.child[ch].child[''].is_leaf = True
 
                 node = node.child[ch]
+            node.child[''] = Node()
+            node.child[''].is_leaf = True
 
     def visualise(self) -> None:
         graph = nx.Graph()
@@ -80,10 +83,17 @@ class SufTrie:
                 self._build_graph(graph=graph, node=child_node, parent=node)
 
     def _generate_positions(self, shifts: int):
+        """
+        generates a dictionary of postions
 
-        def dfs_count_pos(node: "Node", hor_shift: int = 0, vert_shift: int = 0, max_hor_shift: int = 0) -> tuple[int, dict["Node": tuple[int]]]:
-            # if node.is_leaf:
-            #     return (max_hor_shift, {node: (hor_shift, vert_shift - shifts)})
+        shifts: distances between nodes
+        """
+        def dfs_count_pos(node: "Node", vert_shift: int = 0, max_hor_shift: int = 0)\
+             -> tuple[int, dict["Node": tuple[int]]]:
+            """
+            recursive dfs that sets positions to evry node
+            saves max_hor_shift to avoid intersection of nodes
+            """
             if node is None:
                 return (max_hor_shift, {})
 
@@ -91,7 +101,6 @@ class SufTrie:
 
             for ch_node in node.child.values():
                 max_hor_shift, new_pos = dfs_count_pos(ch_node,
-                                                       hor_shift=max_hor_shift + shifts,
                                                        vert_shift=vert_shift - shifts,
                                                        max_hor_shift=max_hor_shift)
                 if len(node.child) > 1:
@@ -105,24 +114,6 @@ class SufTrie:
 
         return dfs_count_pos(self.root)[1]
 
-
-    @classmethod
-    def draw(cls, start_node, depth = 0):
-        '''
-        draws a tree
-        '''
-        if isinstance(start_node, SufTrie):
-            start_node = start_node.root
-
-        string = ""
-        tab = "│  "
-
-        for key, node in start_node.child.items():
-            line = tab * depth + key + "\n"
-            string += line + SufTrie.draw(node, depth+1)
-
-        return string
-
     @classmethod
     def get_suffixes(cls, word: str) -> list[str]:
         """
@@ -132,8 +123,5 @@ class SufTrie:
 
 if __name__ == "__main__":
     s_tree = SufTrie()
-    s_tree.insert_word("abc")
-    s_tree.insert_word("bcd")
-    s_tree.insert_word("bce")
-    s_tree.insert_word("bcef")
+    s_tree.insert_word("banana")
     s_tree.visualise()
