@@ -14,7 +14,7 @@ class Node:
         '''
         # Every node has a value, if it`s empty -> value=''
         self.value = value
-        self.idx = idx
+        self.idx = [idx]
         self.is_word = is_word
         # List of child nodes {value: Node}
         self.child = {}
@@ -44,6 +44,8 @@ class SufTrie:
             for char in suf:
                 if char not in node.child:
                     node.child[char] = Node(char, idx=index)
+                else:
+                    node.child[char].idx.append(index)
 
                 node = node.child[char]
             node.is_word = True
@@ -128,9 +130,7 @@ class SufTrie:
 
 if __name__ == "__main__":
     s_tree = SufTrie()
-    s_tree.insert_word("sword")
-    s_tree.insert_word("word")
-    s_tree.insert_word("world")
-    s_tree.insert_word("lord")
-    s_tree.insert_word("door")
+    sentence = "banana"
+    for word in sentence.split(' '):
+        s_tree.insert_word(word)
     s_tree.visualise()
