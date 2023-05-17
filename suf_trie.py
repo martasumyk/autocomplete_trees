@@ -49,6 +49,9 @@ class SufTrie:
             node.is_word = True
 
     def visualise(self) -> None:
+        """
+        creates NetworkX graph, positiones it's nodes and colorises them
+        """
         graph = nx.Graph()
         self._build_graph(graph=graph, node=self.root)
 
@@ -61,6 +64,9 @@ class SufTrie:
         plt.show()
 
     def _build_graph(self, graph: "nx.Graph", node: "Node", parent: "Node" = None) -> None:
+        """
+        recursively fills graph with nodes of the Tree
+        """
         graph.add_node(node)
 
         if parent:
@@ -70,6 +76,9 @@ class SufTrie:
             self._build_graph(graph=graph, node=child_node, parent=node)
 
     def _generate_colors(self, graph: "nx.Graph", main_c='lightblue', end_c='lightsalmon'):
+        """
+        parces graph and node's parametr is_word == True, sets it's color to end_c, else to main_c
+        """
         color_map = []
         for vert in graph:
             if vert.is_word:
@@ -119,5 +128,9 @@ class SufTrie:
 
 if __name__ == "__main__":
     s_tree = SufTrie()
-    s_tree.insert_word("banana")
+    s_tree.insert_word("sword")
+    s_tree.insert_word("word")
+    s_tree.insert_word("world")
+    s_tree.insert_word("lord")
+    s_tree.insert_word("door")
     s_tree.visualise()
