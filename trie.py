@@ -50,6 +50,21 @@ class Tree:
         # self.graph = nx.Graph()
 
 
+    def compress_tree(self, root: Union[Node, None] = None):
+        ''' ArithmeticError '''
+        node = root or self.root
+
+        if len(node.children) == 1 and not node.is_word:
+            child = node.children[list(node.children.keys())[0]]
+            node.value += child.value
+            node.children = child.children
+            node.is_word = child.is_word
+
+            self.compress_tree(child)
+        else:
+            for child in node.children.values():
+                self.compress_tree(child)
+
     # def draw_graph(self):
     #     '''
     #     Visualizes the graph.
@@ -89,23 +104,6 @@ class PrefixTree(Tree):
 
         for word in words:
             self.insert_word(word.strip())
-
-        self.compress_tree()
-
-    def compress_tree(self, root: Union[Node, None] = None):
-        ''' ArithmeticError '''
-        node = root or self.root
-
-        if len(node.children) == 1 and not node.is_word:
-            child = node.children[list(node.children.keys())[0]]
-            node.value += child.value
-            node.children = child.children
-            node.is_word = child.is_word
-
-            self.compress_tree(child)
-        else:
-            for child in node.children.values():
-                self.compress_tree(child)
 
     def insert_word(self, word: str):
         '''
