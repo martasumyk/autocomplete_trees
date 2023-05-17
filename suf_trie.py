@@ -65,7 +65,7 @@ class SufTrie:
                 with_labels=True,
                 node_size=300,
                 node_color="skyblue",
-                pos=nx.fruchterman_reingold_layout(graph))
+                pos=self._generate_positions(300))
         plt.title("spring")
         plt.show()
 
@@ -78,6 +78,27 @@ class SufTrie:
         if not node.is_leaf:
             for child_node in node.child.values():
                 self._build_graph(graph=graph, node=child_node, parent=node)
+
+    def _generate_positions(self, shifts: int):
+
+        def dfs_count_pos(node: "Node", hor_shift: int = 0, vert_shift: int = 0, max_hor_shift: int = 0) -> tuple[int, dict["Node": tuple[int]]]:
+            if node.is_leaf:
+                return (max_hor_shift, {node: (hor_shift, vert_shift - shifts)})
+
+            pos = {node: (max_hor_shift + shifts, vert_shift - shifts)}
+
+            for ch_node in node.child.values():
+                max_hor_shift, new_pos = dfs_count_pos(ch_node,
+                                                       hor_shift=max_hor_shift + shifts,
+                                                       vert_shift=vert_shift - shifts,
+                                                       max_hor_shift=max_hor_shift)
+                max_hor_shift += shifts
+                pos.update(new_pos)
+
+            return (max_hor_shift, pos)
+
+        return dfs_count_pos(self.root)[1]
+
 
     @classmethod
     def draw(cls, start_node, depth = 0):
@@ -105,6 +126,7 @@ class SufTrie:
 
 if __name__ == "__main__":
     s_tree = SufTrie()
-    s_tree.insert_word("hello")
+    s_tree.insert_word("lord")
+    s_tree.insert_word("word")
     s_tree.insert_word("world")
     s_tree.visualise()
