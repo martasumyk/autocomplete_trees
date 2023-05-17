@@ -1,6 +1,8 @@
 '''
 Main module to create suffix trie.
 '''
+import networkx as nx
+import matplotlib.pyplot as plt
 
 class Node:
     '''
@@ -19,7 +21,7 @@ class Node:
         self.child = {}
 
     def __repr__(self) -> str:
-        return f"{self.value} >> {str(self.child.keys())[11:-2]}"
+        return str(self.value)
 
 
 class SufTrie:
@@ -55,6 +57,28 @@ class SufTrie:
 
                 node = node.child[ch]
 
+    def visualise(self) -> None:
+        graph = nx.Graph()
+        self._build_graph(graph=graph, node=self.root)
+
+        nx.draw(graph,
+                with_labels=True,
+                node_size=300,
+                node_color="skyblue",
+                pos=nx.fruchterman_reingold_layout(graph))
+        plt.title("spring")
+        plt.show()
+
+    def _build_graph(self, graph: "nx.Graph", node: "Node", parent: "Node" = None) -> None:
+        graph.add_node(node)
+
+        if parent:
+            graph.add_edge(parent, node)
+
+        if not node.is_leaf:
+            for child_node in node.child.values():
+                self._build_graph(graph=graph, node=child_node, parent=node)
+
     @classmethod
     def draw(cls, start_node, depth = 0):
         '''
@@ -78,3 +102,9 @@ class SufTrie:
         returns list of suffixes of a word
         """
         return [word[begin:] for begin in range(len(word))]
+
+if __name__ == "__main__":
+    s_tree = SufTrie()
+    s_tree.insert_word("hello")
+    s_tree.insert_word("world")
+    s_tree.visualise()
