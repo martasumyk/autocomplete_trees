@@ -77,6 +77,7 @@ class Tree:
     #     for child in tree.children.values():
     #         self.create_graph(child, index + 1)
 
+
 class PrefixTree(Tree):
     ''' Prefix Tree '''
     def build_tree(self, path: str):
@@ -158,4 +159,7 @@ if __name__ == "__main__":
     tree = PrefixTree()
     tree.build_tree('words.txt')
 
+    # TODO: fix bananaq and bananaqu
     print( tree.autocomplete('banana') )
+    print( tree.autocomplete('bananaq') )
+    print( tree.autocomplete('bananaqu') )
