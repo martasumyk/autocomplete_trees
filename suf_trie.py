@@ -8,15 +8,14 @@ class Node:
     '''
     Creates a class that represents the trie node.
     '''
-    def __init__(self, value = ''):
+    def __init__(self, value = '', idx = None, is_word=False):
         '''
         Initializes the node.
         '''
         # Every node has a value, if it`s empty -> value=''
         self.value = value
-        # Parameter to indicate if the node is a leaf:
-        self.is_leaf = False
-
+        self.idx = idx
+        self.is_word = is_word
         # List of child nodes {value: Node}
         self.child = {}
 
@@ -34,31 +33,20 @@ class SufTrie:
         '''
         # The root of the tree is always an empty string:
         self.root = Node('')
-        self.root.is_leaf = True
 
     def insert_word(self, word: str) -> None:
         '''
         Inserts word into a trie.
         '''
         suffixes = SufTrie.get_suffixes(word)
-        for suf in suffixes:
+        for index, suf in enumerate(suffixes):
             node = self.root
-            for i, ch in enumerate(suf):
-                if ch not in node.child:
-                    # first iteration
-                    if node.is_leaf:
-                        node.is_leaf = False
-                        node.child[''] = Node()
-                        node.child[''].is_leaf = True
+            for char in suf:
+                if char not in node.child:
+                    node.child[char] = Node(char, idx=index)
 
-                    node.child[ch] = Node(ch)
-                    if i == len(suf) - 1:
-                        node.child[ch].child[''] = Node()
-                        node.child[ch].child[''].is_leaf = True
-
-                node = node.child[ch]
-            node.child[''] = Node()
-            node.child[''].is_leaf = True
+                node = node.child[char]
+            node.is_word = True
 
     def visualise(self) -> None:
         graph = nx.Graph()
@@ -67,7 +55,7 @@ class SufTrie:
         nx.draw(graph,
                 with_labels=True,
                 node_size=300,
-                node_color="skyblue",
+                node_color=self._generate_colors(graph),
                 pos=self._generate_positions(300))
         plt.title("spring")
         plt.show()
@@ -78,9 +66,17 @@ class SufTrie:
         if parent:
             graph.add_edge(parent, node)
 
-        if not node.is_leaf:
-            for child_node in node.child.values():
-                self._build_graph(graph=graph, node=child_node, parent=node)
+        for child_node in node.child.values():
+            self._build_graph(graph=graph, node=child_node, parent=node)
+
+    def _generate_colors(self, graph: "nx.Graph", main_c='lightblue', end_c='lightsalmon'):
+        color_map = []
+        for vert in graph:
+            if vert.is_word:
+                color_map.append(end_c)
+            else:
+                color_map.append(main_c)
+        return color_map
 
     def _generate_positions(self, shifts: int):
         """
@@ -108,7 +104,7 @@ class SufTrie:
                 pos.update(new_pos)
 
             if len(node.child) > 1:
-                    max_hor_shift -= shifts
+                max_hor_shift -= shifts
 
             return (max_hor_shift, pos)
 
