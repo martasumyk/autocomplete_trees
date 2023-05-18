@@ -20,7 +20,8 @@ class Node:
         self.child = {}
 
     def __repr__(self) -> str:
-        return str(self.value)
+        return f"value: {self.value}\nindexes:{self.idx}"
+        # return str(self.value)
 
 
 class SufTrie:
