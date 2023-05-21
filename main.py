@@ -24,9 +24,9 @@ def autocomplete():
     app.logger.info(f"Received input: {input_word}")
 
     # Process the input and perform any desired operations
-
     response = {
-        "status": "success"
+        "status": "success",
+        "suggestions": ", ".join(prefix_trie.autocomplete(input_word)[:4])
     }
 
     return jsonify(response)

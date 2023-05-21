@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./autocomplete-page.css";
 import logo from "./logo.svg";
 import search from "./icon_search.svg";
@@ -8,27 +8,32 @@ import AutocompleteSuggestions from "../../components/autocomplete-suggestions";
 const AutocompletePage = () => {
   const [focused, setFocused] = useState(false);
   const [word, setWord] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
 
   const handleSubmit = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setWord(event.target.value)
+    setWord(event.target.value);
     event.preventDefault();
-    // Fetch data here using the word state
-    fetch("/autocomplete", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ input: word }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-      console.log(11)
   };
+
+  useEffect(() => {
+    if (word) {
+      fetch("/autocomplete", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ input: word }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          const suggestionsArr = data.suggestions.split(", ");
+          setSuggestions(suggestionsArr);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    }
+  }, [word]);
 
   return (
     <div id="wrapper">
@@ -53,12 +58,7 @@ const AutocompletePage = () => {
         </form>
         <img src={googlemic} alt="mic" id="mic" />
 
-        {focused && (
-          <AutocompleteSuggestions
-            suggestions={["banana", "bananaquit", "bananas", "banana's"]}
-            word={word}
-          />
-        )}
+        {focused && <AutocompleteSuggestions suggestions={suggestions} word={word} />}
       </div>
     </div>
   );
