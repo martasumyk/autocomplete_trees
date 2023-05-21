@@ -155,9 +155,9 @@ class PrefixTree(Tree):
 
 if __name__ == "__main__":
     tree = PrefixTree()
-    tree.build_tree('words.txt')
+    tree.build_tree('server/words_eng.txt')
 
     # TODO: fix bananaq and bananaqu
-    print( tree.autocomplete('banana') )
-    print( tree.autocomplete('bananaq') )
-    print( tree.autocomplete('bananaqu') )
+    print( tree.autocomplete('bana') )
+    # print( tree.autocomplete('bananaq') )
+    # print( tree.autocomplete('bananaqu') )
