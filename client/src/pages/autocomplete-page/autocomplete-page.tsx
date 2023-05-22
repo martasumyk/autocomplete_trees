@@ -32,7 +32,11 @@ const AutocompletePage = () => {
         .catch((error) => {
           console.error("Error:", error);
         });
+    }else{
+      setSuggestions([]);
     }
+
+
   }, [word]);
 
   return (
