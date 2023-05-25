@@ -21,7 +21,6 @@ class Node:
 
     def __repr__(self) -> str:
         return f"value: {self.value}\nindexes:{self.idx}"
-        # return str(self.value)
 
 
 class SufTrie:
@@ -80,7 +79,7 @@ class SufTrie:
 
     def _generate_colors(self, graph: "nx.Graph", main_c='lightblue', end_c='lightsalmon'):
         """
-        parces graph and node's parametr is_word == True, sets it's color to end_c, else to main_c
+        parces graph and node's parameter is_word == True, sets it's color to end_c, else to main_c
         """
         color_map = []
         for vert in graph:
@@ -99,7 +98,7 @@ class SufTrie:
         def dfs_count_pos(node: "Node", vert_shift: int = 0, max_hor_shift: int = 0)\
              -> tuple[int, dict["Node": tuple[int]]]:
             """
-            recursive dfs that sets positions to evry node
+            recursive dfs that sets positions to every node
             saves max_hor_shift to avoid intersection of nodes
             """
             if node is None:
@@ -132,6 +131,8 @@ class SufTrie:
 if __name__ == "__main__":
     s_tree = SufTrie()
     sentence = "banana"
+
     for word in sentence.split(' '):
         s_tree.insert_word(word)
+
     s_tree.visualise()
