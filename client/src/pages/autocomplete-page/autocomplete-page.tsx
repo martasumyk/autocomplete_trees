@@ -48,6 +48,8 @@ const AutocompletePage = () => {
     } else {
       setSuggestions([]);
     }
+
+
   }, [word]);
 
   return (
