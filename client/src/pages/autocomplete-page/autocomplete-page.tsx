@@ -11,6 +11,10 @@ const AutocompletePage = () => {
   const [sentence, setSentence] = useState("")
   const [suggestions, setSuggestions] = useState([]);
 
+  useEffect(() => {
+    document.title = "Rabbits";
+  }, []);
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     const {value} = event.target;
