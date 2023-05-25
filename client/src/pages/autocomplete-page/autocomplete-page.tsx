@@ -8,12 +8,21 @@ import AutocompleteSuggestions from "../../components/autocomplete-suggestions";
 const AutocompletePage = () => {
   const [focused, setFocused] = useState(false);
   const [word, setWord] = useState("");
+  const [sentence, setSentence] = useState("")
   const [suggestions, setSuggestions] = useState([]);
 
-  const handleSubmit = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setWord(event.target.value);
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
+    const {value} = event.target;
+
+    setSentence(value);
+    setWord(value.split(' ').at(-1) || '');
   };
+
+  const submitHandler: React.FormEventHandler<HTMLFormElement> = (event) => {
+    event.preventDefault();
+    window.open(`https://www.google.com/search?q=${sentence}&lr=(-lang_ru)`, '_blank')!.focus();
+  }
 
   useEffect(() => {
     if (word) {
@@ -32,6 +41,8 @@ const AutocompletePage = () => {
         .catch((error) => {
           console.error("Error:", error);
         });
+    } else {
+      setSuggestions([]);
     }
   }, [word]);
 
@@ -41,7 +52,7 @@ const AutocompletePage = () => {
 
       <div id="inputWrapper" className={focused ? "wrapper-focused" : ""}>
         <img src={search} alt="Search" id="search" />
-        <form>
+        <form onSubmit={submitHandler}>
           <input
             id="input"
             type="text"
@@ -52,13 +63,13 @@ const AutocompletePage = () => {
             placeholder="Шукайте в Rabbits або поставте усім нам 100"
             aria-expanded="false"
             aria-live="polite"
-            onClick={(e) => setFocused(true)}
-            onChange={handleSubmit}
+            onClick={() => setFocused(true)}
+            onChange={handleChange}
           />
         </form>
         <img src={googlemic} alt="mic" id="mic" />
 
-        {focused && <AutocompleteSuggestions suggestions={suggestions} word={word} />}
+        {focused && <AutocompleteSuggestions suggestions={suggestions} word={word} sentence={sentence} />}
       </div>
     </div>
   );

@@ -8,7 +8,7 @@ import logging
 app = Flask(__name__, template_folder='./client/build', static_folder='./client/build/static')
 # build pref_trie
 prefix_trie = pt.PrefixTree()
-prefix_trie.build_tree('server/words_eng.txt')
+prefix_trie.build_tree('server/words.txt')
 
 @app.route("/")
 def main():
@@ -26,7 +26,7 @@ def autocomplete():
     # Process the input and perform any desired operations
     response = {
         "status": "success",
-        "suggestions": ", ".join(prefix_trie.autocomplete(input_word)[:4])
+        "suggestions": ", ".join(prefix_trie.autocomplete(input_word)[:7])
     }
 
     return jsonify(response)
