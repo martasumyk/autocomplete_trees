@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from "react";
-import "./autocomplete-page.css";
-import logo from "./logo.svg";
-import search from "./icon_search.svg";
-import googlemic from "./googlemic.svg";
+
 import AutocompleteSuggestions from "../../components/autocomplete-suggestions";
 
+import googlemic from "./googlemic.svg";
+import search from "./icon_search.svg";
+import logo from "./logo.svg";
+
+import "./autocomplete-page.css";
+import { Link } from "react-router-dom";
+
 const AutocompletePage = () => {
-  const [focused, setFocused] = useState(false);
   const [word, setWord] = useState("");
   const [sentence, setSentence] = useState("")
+  const [focused, setFocused] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
 
   useEffect(() => {
@@ -53,31 +57,35 @@ const AutocompletePage = () => {
   }, [word]);
 
   return (
-    <div id="wrapper">
-      <img src={logo} alt="logo" id="logo" />
+    <>
+      <p className='link-wrapper'><Link to='/ftse' className='link'>Full Text Search Engine</Link></p>
 
-      <div id="inputWrapper" className={focused ? "wrapper-focused" : ""}>
-        <img src={search} alt="Search" id="search" />
-        <form onSubmit={submitHandler}>
-          <input
-            id="input"
-            type="text"
-            autoComplete="off"
-            spellCheck="false"
-            role="combobox"
-            aria-controls="matches"
-            placeholder="Шукайте в Rabbits або поставте усім нам 100"
-            aria-expanded="false"
-            aria-live="polite"
-            onClick={() => setFocused(true)}
-            onChange={handleChange}
-          />
-        </form>
-        <img src={googlemic} alt="mic" id="mic" />
+      <div id="wrapper">
+        <img src={logo} alt="logo" id="logo" />
 
-        {focused && <AutocompleteSuggestions suggestions={suggestions} word={word} sentence={sentence} />}
+        <div id="inputWrapper" className={focused ? "wrapper-focused" : ""}>
+          <img src={search} alt="Search" id="search" />
+          <form onSubmit={submitHandler}>
+            <input
+              id="input"
+              type="text"
+              autoComplete="off"
+              spellCheck="false"
+              role="combobox"
+              aria-controls="matches"
+              placeholder="Шукайте в Rabbits або поставте усім нам 100"
+              aria-expanded="false"
+              aria-live="polite"
+              onClick={() => setFocused(true)}
+              onChange={handleChange}
+            />
+          </form>
+          <img src={googlemic} alt="mic" id="mic" />
+
+          {focused && <AutocompleteSuggestions suggestions={suggestions} word={word} sentence={sentence} />}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -37,7 +37,17 @@ def autocomplete():
 @app.route("/fulltextsearch", methods=['POST'])
 def full_text_search():
     """ Full text search route """
-    raise NotImplementedError
+    data = request.get_json()  # Get the data sent from the frontend
+    text = data.get("text")
+    search = data.get("search")
+
+    suffix_trie = st.SufTrie()
+    suffix_trie.insert_word(text)
+
+    result = suffix_trie.full_text_search_engine(search)
+
+    return jsonify(result[0])
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=5050)

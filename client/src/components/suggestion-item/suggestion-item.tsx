@@ -13,7 +13,7 @@ const SuggestionItem: React.FC<Props> = ({word, sentence}) => {
   return (
     <li className="suggestion-item">
       <a href={`https://www.google.com/search?q=${search}`}>
-        <img src={carrot} alt="Carrot" width={20}/>
+        <img src={carrot} alt="Carrot" width={20} />
         {length > 1 ? '...' : ''}{word}
       </a>
     </li>

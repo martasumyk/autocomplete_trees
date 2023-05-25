@@ -1,17 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './components/app/App';
 import reportWebVitals from './reportWebVitals';
-import AutocompletePage from "./pages/autocomplete-page/autocomplete-page";
+import AppRouter from './components/app-router';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
+
 root.render(
   <React.StrictMode>
-    <AutocompletePage />
+    <AppRouter />
   </React.StrictMode>
 );
 

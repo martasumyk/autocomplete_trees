@@ -128,6 +128,23 @@ class SufTrie:
         """
         return [word[begin:] for begin in range(len(word))]
 
+    def full_text_search_engine(self, pattern: str):
+        '''
+        Searches the pattern in the text traversing it`s suffix tree.
+        '''
+        current_node = self.root
+        start_indeces = []
+        for letter in pattern:
+            if letter not in current_node.child:
+                return [[]]
+
+            current_node = current_node.child[letter]
+
+        # Counting start and end index, where the text matches pattern:
+        start_indeces = current_node.idx
+        end_indeces = [i + len(pattern) for i in start_indeces]
+        return start_indeces, end_indeces
+
 if __name__ == "__main__":
     s_tree = SufTrie()
     sentence = "banana"

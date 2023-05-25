@@ -1,0 +1,35 @@
+.wrapper {
+    display: flex;
+    justify-content: space-around;
+    padding: 40px 0;
+}
+
+.inputs, 
+.text {
+    width: 40%;
+}
+
+.text-area,
+.input {
+  width: 100%;
+  border: 2px solid #aaa;
+  border-radius: 4px;
+  margin: 8px 0;
+  outline: none;
+  padding: 8px; /*allPadding = 8*/
+  box-sizing: border-box;
+  transition: 0.3s;
+  text-indent: 32px; 
+
+}
+
+.text-area:first-line,
+.text-area:placeholder-shown {
+  line-height: 1.6em;
+}
+
+.centerForm {
+  padding: 12px 16px;
+  border: 2px dashed #aaa;
+  border-radius: 6px;
+}

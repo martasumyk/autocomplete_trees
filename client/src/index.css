@@ -11,7 +11,16 @@ body {
     box-sizing: border-box;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.link-wrapper {
+  text-align: right;
+  padding: 0 30px;
+}
+
+.link {
+  text-decoration: none;
+  color: #333;
+}
+
+.link:hover {
+  text-decoration: underline;
 }
