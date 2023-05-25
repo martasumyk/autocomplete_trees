@@ -51,7 +51,9 @@ class Tree:
 
 
     def compress_tree(self, root: Union[Node, None] = None):
-        ''' ArithmeticError '''
+        '''
+        Make the compression of the tree in the way of uniting nodes with only one child.
+        '''
         node = root or self.root
 
         if len(node.children) == 1 and not node.is_word:
