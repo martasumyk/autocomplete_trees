@@ -53,31 +53,33 @@ const FTSEPage: React.FC = () => {
           </div>
 
         <div className="text">
-          {
-            positions.length ? 
-              positions.map((position, i) => {
-                if (i === positions.length - 1) {
+          <pre>
+            {
+              positions.length ? 
+                positions.map((position, i) => {
+                  if (i === positions.length - 1) {
+                    return <React.Fragment key={position}>
+                      <span>{text.substring(positions[i - 1] + search.length, position)}</span>
+                      <mark>{text.substring(position, position + search.length)}</mark>
+                      <span>{text.substring(position + search.length, text.length)}</span>
+                    </React.Fragment>
+                  }
+
+                  if (i === 0) {
+                    return <React.Fragment key={position}>
+                      <span>{text.substring(0, position)}</span>
+                      <mark>{text.substring(position, position + search.length)}</mark>
+                      </React.Fragment>;
+                  }
+                  
                   return <React.Fragment key={position}>
                     <span>{text.substring(positions[i - 1] + search.length, position)}</span>
                     <mark>{text.substring(position, position + search.length)}</mark>
-                    <span>{text.substring(position + search.length, text.length)}</span>
-                  </React.Fragment>
-                }
-
-                if (i === 0) {
-                  return <React.Fragment key={position}>
-                    <span>{text.substring(0, position)}</span>
-                    <mark>{text.substring(position, position + search.length)}</mark>
-                    </React.Fragment>;
-                }
-                
-                return <React.Fragment key={position}>
-                  <span>{text.substring(positions[i - 1] + search.length, position)}</span>
-                  <mark>{text.substring(position, position + search.length)}</mark>
-                </React.Fragment>;
-              }) :
-              text
-          }
+                  </React.Fragment>;
+                }) :
+                text
+            }
+          </pre>
         </div>
       </div>
     </>
