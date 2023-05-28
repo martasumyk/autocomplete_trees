@@ -1,6 +1,6 @@
 # Autocomplete service and  Full text search engine
 
-In this project we have implemented suffix and preffix trees and based on them aucomplete servise and full text search engine. Try it on our webdite - https://rabbits.pythonanywhere.com/
+In this project we have implemented suffix and preffix trees and based on them aucomplete servise and full text search engine. Try it on our website - https://rabbits.pythonanywhere.com/
 
 `Prefix tree:`
 
