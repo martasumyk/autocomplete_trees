@@ -31,7 +31,7 @@ Autocomplete servise shows reccomendations based on the prefix given by the user
 
 ![image](https://github.com/martasumyk/autocomplete_trees/assets/116710765/69e989ff-d0a2-4e61-9734-c969050e1b16)
 
-It works by recursively traversing the prefix tree and searching for the sub-words that are complete words (we have attribute is_word to check, if the nose is the end of particular word).
+It works by recursively traversing the prefix tree and searching for the sub-words that are complete words (we have attribute is_word to check, if the node is the end of particular word).
 
 `Suffix tree:`
 
