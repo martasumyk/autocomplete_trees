@@ -1,7 +1,7 @@
 """ Main module to start """
 from flask import Flask, render_template, request, jsonify
-import server.pref_trie as pt
-import server.suf_trie as st
+import server.prefix_trie as pt
+import server.suffix_trie as st
 
 
 app = Flask(__name__, template_folder='./client/build', static_folder='./client/build/static')
@@ -42,7 +42,7 @@ def full_text_search():
     search = data.get("search")
 
     suffix_trie = st.SufTrie()
-    suffix_trie.insert_word(text)
+    suffix_trie.build_tree(text)
 
     result = suffix_trie.full_text_search_engine(search)
 
