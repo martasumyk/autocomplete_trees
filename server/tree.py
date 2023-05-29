@@ -1,3 +1,4 @@
+''' Module tree '''
 from typing import Union
 
 import networkx as nx
@@ -20,7 +21,6 @@ class Node:
 
     def __str__(self) -> str:
         return f"Node({self.value}). Is word {self.is_word}. Children: {list(self.children.keys())}"
-
 
 
 class Tree:

@@ -1,7 +1,7 @@
 '''
 Main module to create suffix trie.
 '''
-from tree import Node, Tree
+from server.tree import Node, Tree
 
 class SuffixNode(Node):
     '''

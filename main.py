@@ -7,7 +7,7 @@ import server.suffix_trie as st
 app = Flask(__name__, template_folder='./client/build', static_folder='./client/build/static')
 
 prefix_trie = pt.PrefixTree()
-prefix_trie.build_tree('server/words.txt')
+prefix_trie.read_file('server/words.txt')
 
 @app.route("/")
 def main():

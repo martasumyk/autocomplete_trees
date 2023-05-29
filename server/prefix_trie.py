@@ -2,7 +2,7 @@
 Main module.
 '''
 from typing import Union
-from tree import Node, Tree
+from server.tree import Node, Tree
 
 class PrefixNode(Node):
     '''
